@@ -37,14 +37,14 @@ class PostsController < ApplicationController
       @comments << commentData
     end
 
-    render json: {post: @post, comments: @comments}
+    render json: {post: @post.attributes.merge({:author => @post.avatar.name, :author_rep => @post.avatar.reputation}), comments: @comments}
   end
 
   def create
     @post = Post.new(post_params)
 
     if @post.save
-      render json: @post, status: :created, location: @post
+      render json: @post, status: :created
     else
       render json: @post.errors, status: :unprocessable_entity
     end
