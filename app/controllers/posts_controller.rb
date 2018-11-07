@@ -31,6 +31,7 @@ class PostsController < ApplicationController
         created_at: comment.created_at,
         author: comment.avatar.name,
         author_rep: comment.avatar.reputation,
+        avatar_id: comment.avatar.id,
         score: comment.votes.sum(:direction)
       }
 
