@@ -34,7 +34,11 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment.destroy
+    if @comment.destroy
+      render json: {message: "Comment successfully deleted"}
+    else
+      render json: @comment.errors, status: :unprocessable_entity
+    end
   end
 
   private

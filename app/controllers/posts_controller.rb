@@ -60,7 +60,11 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
+    if @post.destroy
+      render json: {message: "Post successfully deleted"}
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
   end
 
   private
