@@ -12,7 +12,29 @@ class PostsController < ApplicationController
         created_at: post.created_at,
         author: post.avatar.name,
         author_rep: post.avatar.reputation,
-        score: post.votes.sum(:direction)
+        score: post.votes.sum(:direction),
+        vote: nil
+      }
+
+      @posts << postData
+    end
+
+    render json: @posts
+  end
+
+  def index_by_avatar
+    @posts = []
+    
+    Post.order('created_at DESC').each do |post|
+      postData = {
+        id: post.id,
+        title: post.title,
+        body: post.body,
+        created_at: post.created_at,
+        author: post.avatar.name,
+        author_rep: post.avatar.reputation,
+        score: post.votes.sum(:direction),
+        vote: post.votes.where(avatar_id: params[:avatar_id])
       }
 
       @posts << postData
