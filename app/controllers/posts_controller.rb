@@ -74,7 +74,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      render json: @post
+      render json: {post: @post.attributes.merge({:author => @post.avatar.name, :author_rep => @post.avatar.reputation})}
     else
       render json: @post.errors, status: :unprocessable_entity
     end

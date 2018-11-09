@@ -27,7 +27,11 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      render json: @comment
+      comment = @comment.attributes
+      comment['author'] = @comment.avatar.name
+      comment['author_rep'] = @comment.avatar.reputation
+      
+      render json: comment
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
