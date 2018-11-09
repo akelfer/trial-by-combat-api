@@ -12,8 +12,7 @@ class PostsController < ApplicationController
         created_at: post.created_at,
         author: post.avatar.name,
         author_rep: post.avatar.reputation,
-        score: post.votes.sum(:direction),
-        vote: nil
+        score: post.votes.sum(:direction)
       }
 
       @posts << postData
@@ -34,7 +33,7 @@ class PostsController < ApplicationController
         author: post.avatar.name,
         author_rep: post.avatar.reputation,
         score: post.votes.sum(:direction),
-        vote: post.votes.where(avatar_id: params[:avatar_id])
+        vote: post.votes.find_by(avatar_id: params[:avatar_id])
       }
 
       @posts << postData
