@@ -16,12 +16,22 @@ class VotesController < ApplicationController
   end
 
   def create
-    @vote = Vote.new(vote_params)
+    @vote = Vote.find_by(avatar_id: params[:avatar_id], content_type: params[:content_type], content_id: params[:content_id])
 
-    if @vote.save
-      render json: @vote, status: :created
-    else
-      render json: @vote.errors, status: :unprocessable_entity
+    if @vote
+      if @vote.update(vote_params)
+        render json: @vote
+      else
+        render json @vote.errors, status: unprocessable_entity
+      end
+    else 
+      @vote = Vote.new(vote_params)
+
+      if @vote.save
+        render json: @vote, status: :created
+      else
+        render json: @vote.errors, status: :unprocessable_entity
+      end
     end
   end
 
