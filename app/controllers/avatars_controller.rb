@@ -1,3 +1,5 @@
+require 'set'
+
 class AvatarsController < ApplicationController
   before_action :find_avatar, only: [:show, :update, :destroy]
 
@@ -5,6 +7,29 @@ class AvatarsController < ApplicationController
     @avatars = Avatar.all
 
     render json: @avatars
+  end
+
+  def enemies_by_avatar
+    @avatar = Avatar.find(params[:avatar_id])
+    @enemies = []
+
+    @avatar.posts.each do |post|
+      post.votes.each do |vote|
+        if vote.direction == -1
+          @enemies << Avatar.find(vote.avatar_id)
+        end
+      end
+    end
+
+    @avatar.comments.each do |comment|
+      comment.votes.each do |vote|
+        if vote.direction == -1
+          @enemies << Avatar.find(vote.avatar_id)
+        end
+      end
+    end
+
+    render json: @enemies.to_set
   end
 
   def show

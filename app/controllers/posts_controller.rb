@@ -2,21 +2,7 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:show, :update, :destroy]
 
   def index
-    @posts = []
-    
-    Post.order('created_at DESC').each do |post|
-      postData = {
-        id: post.id,
-        title: post.title,
-        body: post.body,
-        created_at: post.created_at,
-        author: post.avatar.name,
-        author_rep: post.avatar.reputation,
-        score: post.votes.sum(:direction)
-      }
-
-      @posts << postData
-    end
+    @posts = Post.all
 
     render json: @posts
   end

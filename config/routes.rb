@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :posts
   resources :comments
   resources :votes
-
+  
   post '/posts/:avatar_id', to: 'posts#index_by_avatar'
+  get '/enemies', to: 'avatars#enemies_by_avatar'
 end
