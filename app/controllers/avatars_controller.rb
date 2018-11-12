@@ -15,7 +15,7 @@ class AvatarsController < ApplicationController
 
     @avatar.posts.each do |post|
       post.votes.each do |vote|
-        if vote.direction == -1
+        if vote.direction == -1 and vote.avatar_id != @avatar.id
           @enemies << Avatar.find(vote.avatar_id)
         end
       end
@@ -23,7 +23,7 @@ class AvatarsController < ApplicationController
 
     @avatar.comments.each do |comment|
       comment.votes.each do |vote|
-        if vote.direction == -1
+        if vote.direction == -1 and vote.avatar_id != @avatar.id
           @enemies << Avatar.find(vote.avatar_id)
         end
       end
