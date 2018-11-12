@@ -30,6 +30,8 @@ class CommentsController < ApplicationController
       comment = @comment.attributes
       comment['author'] = @comment.avatar.name
       comment['author_rep'] = @comment.avatar.reputation
+      comment['vote'] = @comment.votes.find_by(avatar_id: params[:avatar_id])
+      comment['score'] = @comment.votes.sum(:direction)
       
       render json: comment
     else

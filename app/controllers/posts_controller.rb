@@ -49,27 +49,6 @@ class PostsController < ApplicationController
     render json: {post: @post.attributes.merge({:author => @post.avatar.name, :author_rep => @post.avatar.reputation, vote: @post.votes.find_by(avatar_id: params[:avatar_id]), score: @post.votes.sum(:direction)}), comments: @comments}
   end
 
-  def show_by_avatar
-    @comments = []
-    
-    @post.comments.order('created_at DESC').each do |comment|
-      commentData = {
-        id: comment.id,
-        body: comment.body,
-        created_at: comment.created_at,
-        author: comment.avatar.name,
-        author_rep: comment.avatar.reputation,
-        avatar_id: comment.avatar.id,
-        score: comment.votes.sum(:direction),
-        vote: comment.votes.find_by(avatar_id: params[:avatar_id])
-      }
-
-      @comments << commentData
-    end
-
-    render json: {post: @post.attributes.merge({:author => @post.avatar.name, :author_rep => @post.avatar.reputation, vote: @post.votes.find_by(avatar_id: params[:avatar_id]), score: @post.votes.sum(:direction)}), comments: @comments}
-  end
-
   def create
     @post = Post.new(post_params)
 
@@ -82,7 +61,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      render json: {post: @post.attributes.merge({:author => @post.avatar.name, :author_rep => @post.avatar.reputation})}
+      render json: {post: @post.attributes.merge({:author => @post.avatar.name, :author_rep => @post.avatar.reputation, vote: @post.votes.find_by(avatar_id: params[:avatar_id]), score: @post.votes.sum(:direction)})}
     else
       render json: @post.errors, status: :unprocessable_entity
     end
