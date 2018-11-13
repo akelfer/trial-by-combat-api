@@ -6,7 +6,12 @@ Rails.application.routes.draw do
   resources :posts
   resources :comments
   resources :votes
+
+  resources :challenges, only: [:index, :create]
+  resources :messages, only: [:create]
   
   post '/posts/:avatar_id', to: 'posts#index_by_avatar'
   get '/enemies', to: 'avatars#enemies_by_avatar'
+
+  mount ActionCable.server => '/cable'
 end
