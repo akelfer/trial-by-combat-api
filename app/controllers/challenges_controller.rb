@@ -1,6 +1,7 @@
 class ChallengesController < ApplicationController
   def index
-    challenges = Challenge.all
+    challenges = Challenge.where(:target_id => params[:avatar_id]).or(Challenge.where(:avatar_id => params[:avatar_id]))
+    
 
     render json: challenges
   end
