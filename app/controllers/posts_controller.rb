@@ -10,7 +10,7 @@ class PostsController < ApplicationController
   def index_by_avatar
     @posts = []
     
-    Post.order('created_at DESC').each_with_index do |post, index|
+    Post.order('created_at DESC').each do |post|
       postData = {
         id: post.id,
         title: post.title,

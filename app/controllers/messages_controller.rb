@@ -6,6 +6,9 @@ class MessagesController < ApplicationController
       serialized_data = ActiveModelSerializers::Adapter::Json.new(
         MessageSerializer.new(message)
       ).serializable_hash
+
+      serialized_data['speaker'] = Avatar.find(message.avatar_id).name
+
       MessagesChannel.broadcast_to challenge, serialized_data
       head :ok
     end
