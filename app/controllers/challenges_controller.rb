@@ -49,9 +49,13 @@ class ChallengesController < ApplicationController
 
   def destroy
     challenge = Challenge.find(params[:id])
-    
-    if challenge.destroy
-      render json: {message: 'Challenge has been destroyed'}
+
+    if challenge
+      if challenge.destroy
+        render json: {message: 'Challenge has been destroyed'}
+      else
+        render json: {message: 'Something went wrong'}
+      end
     end
   end
 
