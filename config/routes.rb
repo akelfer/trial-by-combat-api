@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :comments
   resources :votes
 
-  resources :challenges, only: [:index, :create]
+  resources :challenges, only: [:index, :create, :update, :destroy]
   resources :messages, only: [:create]
   
   post '/posts/:avatar_id', to: 'posts#index_by_avatar'

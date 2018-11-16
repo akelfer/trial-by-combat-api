@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 2018_11_13_160434) do
 
   create_table "challenges", force: :cascade do |t|
     t.string "title"
+    t.string "avatar_throw"
+    t.string "target_throw"
     t.bigint "avatar_id"
     t.integer "target_id"
     t.datetime "created_at", null: false
